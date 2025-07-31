@@ -1,10 +1,14 @@
 package com.gpads.moringa.entities;
+
+import java.time.LocalDateTime;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import java.time.format.DateTimeFormatter;
 
 @Document("DadosEstacao")
 public class DadosEstacao {
@@ -12,6 +16,11 @@ public class DadosEstacao {
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
+    @Field("Data")
+    private String data;
+
+    @Field("Hora")
+    private String hora;
     @Field("Temperatura")
     private Double temperatura;
     @Field("Umidade")
@@ -31,10 +40,16 @@ public class DadosEstacao {
     @Field("Ar")
     private Double ar;
 
-    public DadosEstacao() {}
+    DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public DadosEstacao(Double temperatura, Double umidade, Double pressao, Double vento,
-                         Double volt, Double luz, Double rpm, Double gas, Double ar) {
+    public DadosEstacao() {
+    }
+
+    public DadosEstacao(String data, String hora, Double temperatura, Double umidade, Double pressao, Double vento,
+            Double volt, Double luz, Double rpm, Double gas, Double ar) {
+        this.data = LocalDateTime.now().toLocalDate().format(formatoData);
+        this.hora =LocalDateTime.now().toLocalTime().format(formatoHora);
         this.temperatura = temperatura;
         this.umidade = umidade;
         this.pressao = pressao;
@@ -52,6 +67,22 @@ public class DadosEstacao {
 
     public void setId(ObjectId id) {
         this.id = id;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public Double getTemperatura() {

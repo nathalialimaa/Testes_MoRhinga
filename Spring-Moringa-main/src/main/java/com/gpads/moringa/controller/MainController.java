@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.gpads.moringa.dto.*;
 import com.gpads.moringa.entities.*;
 import com.gpads.moringa.service.*;
 import com.gpads.moringa.statistics.AnaliseService;
@@ -65,6 +64,10 @@ public class MainController {
     @GetMapping("/DadosEstacao")
     public ResponseEntity<List<DadosEstacao>> listarDadosEstacao() {
         List<DadosEstacao> lista = dadosEstacaoService.findAll();
+        System.out.println("=======================================================");
+        System.out.println(lista.get(0).getData());
+        System.out.println(lista.get(0).getHora());
+        System.out.println("=======================================================");
         return ResponseEntity.ok(lista);
     }
 
@@ -90,23 +93,12 @@ public class MainController {
     }
 
 
-    @GetMapping("/analise-completa")
-    public ResponseEntity<List<DadoSensorUnificado>> analisarTudo() {
-        List<DadoSensorUnificado> resultado = analiseService.unificarDados();
-        /*System.out.println("----- Resultado enviado pela API -----");
-        resultado.forEach(dto -> {
-            System.out.println("Pluviometria: " + dto.getPluviometria());
-        });*/
-        // for (DadoSensorUnificado d : resultado) {
-        // System.out.println(d.getPluviometria());
-        // }
-        return ResponseEntity.ok(resultado);
-
-
-
-    }
-
 
 
 
 }
+
+
+
+
+
